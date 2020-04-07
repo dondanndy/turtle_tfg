@@ -1,0 +1,5 @@
+<launch>
+      <include file="$(find turtle_tfg)/launch/navigation.launch"/>
+     <node name="turtle_tfg_node_2" pkg="turtle_tfg" type="map_navigation_node" output="screen">
+     </node>
+</launch>
