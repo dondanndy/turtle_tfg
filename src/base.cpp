@@ -2,7 +2,7 @@
 
 void Base::log_position(const Pose& pos){
     //TODO
-    ROS_INFO("Log")
+    ROS_INFO("Log");
 }
 
 bool Base::move_to_goal(const Pose& pos){
@@ -33,7 +33,7 @@ void Base::run(int argc, char** argv){
         suc = move_to_goal(pos);
         if (!suc){
             ROS_INFO("El robot no ha llegado a su destino, reintentando");
-            for (int i=0, i < MAX_INT, i++){
+            for (int i=0; i < MAX_INT; i++){
                 suc = move_to_goal(pos);
                 if (suc) break;
             }

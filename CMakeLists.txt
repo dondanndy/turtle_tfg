@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   roscpp
   move_base_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -118,6 +119,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  src/include/
 )
 
 ## Declare a C++ library
@@ -134,7 +136,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/turtle_tfg_node.cpp)
-add_executable(turtle_tfg_node src/turtle_tfg.cpp)
+add_executable(tray_vertical src/lab03_vertical.cpp src/base.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -150,7 +152,7 @@ add_executable(turtle_tfg_node src/turtle_tfg.cpp)
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(turtle_tfg_node ${catkin_LIBRARIES})
+target_link_libraries(tray_vertical ${catkin_LIBRARIES})
 
 
 #############

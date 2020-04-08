@@ -12,11 +12,13 @@ class Trayectoria_vertical : public Base {
             position.position.x = 0.0;
             position.position.y = static_cast<double>(-i);
             position.position.z = 0.0;
-
+   
+            position.orientation = tf::createQuaternionMsgFromYaw(0.0);
+	/*
             position.orientation.x = 0.0;
             position.orientation.y = 0.0;
             position.orientation.z = 0.0;
-            position.orientation.w = 1.0;
+            position.orientation.w = 1.0;*/
 
             ruta.push_back(position);
         }
@@ -28,8 +30,7 @@ class Trayectoria_vertical : public Base {
 int main(int argc, char** argv){
 
     Trayectoria_vertical Tray;
-
     Tray.run(argc, argv);
 
-	return 0;
+    return 0;
 }
