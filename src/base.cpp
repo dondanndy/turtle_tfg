@@ -27,9 +27,10 @@ void Base::run(int argc, char** argv){
     ros::NodeHandle n;
     ros::spinOnce();
     bool suc;
-    auto Posiciones = this->path();
+
+    auto posiciones = this->path(); // Vector con las posiciones de la trayectoria.
     
-    for (const Pose& pos : Posiciones){
+    for (const Pose& pos : posiciones){
         suc = move_to_goal(pos);
         if (!suc){
             ROS_INFO("El robot no ha llegado a su destino, reintentando");

@@ -8,21 +8,28 @@ class Trayectoria_vertical : public Base {
         std::vector<Pose> ruta;
         Pose position;
 
-        for (int i=0; i < 3; i++){
-            position.position.x = 0.0;
-            position.position.y = static_cast<double>(-i);
-            position.position.z = 0.0;
-   
-            position.orientation = tf::createQuaternionMsgFromYaw(0.0);
-	/*
-            position.orientation.x = 0.0;
-            position.orientation.y = 0.0;
-            position.orientation.z = 0.0;
-            position.orientation.w = 1.0;*/
+        const int ANCHO = 3;
+        const int ALTO = 4;
 
+        bool orient = false; //Comenzamos hacia abajo.
+
+        for (int i=ANCHO; i <= -ANCHO; i--){
+            for (int j=ALTO; j <= -ALTO; j--){
+                if (orient){
+                    position.position.x = i;
+                    position.position.y = -j;
+
+                    position.orientation = tf::createQuaternionMsgFromYaw(1.57); //+90 grados
+                } else {
+                    position.position.x = i;
+                    position.position.y = j;
+
+                    position.orientation = tf::createQuaternionMsgFromYaw(-1.57); //-90 grados
+                }
             ruta.push_back(position);
+            }
+            orient != orient;
         }
-
         return(ruta);
     }
 };
