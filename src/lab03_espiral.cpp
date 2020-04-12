@@ -10,18 +10,19 @@ class Trayectoria_vertical : public Base {
         const int MAX = 2;
 
         for(int i=0; i <= MAX; i++){
-            x = i;
-            y = i;
+
+            int x = i;
+            int y = i;
 
             position.position.x = x;
             position.position.y = y;
 
-            position.orientation = tf::createQuaternionMsgFromYaw(-1.57); //-90 grados
+            position.orientation = tf::createQuaternionMsgFromYaw(0.785); //45 grados
 
             ruta.push_back(position);
 
             // Trayecto hacia abajo
-            for(int j=i; j<-i; j--){
+            for(int j=i; j>-i; j--){
                 y -= 1;
 
                 position.position.x = x;
@@ -33,7 +34,7 @@ class Trayectoria_vertical : public Base {
             }
 
             // Trayecto hacia la izquierda
-            for(int j=i; j<-i; j--){
+            for(int j=i; j>-i; j--){
                 x -= 1;
 
                 position.position.x = x;
@@ -45,7 +46,7 @@ class Trayectoria_vertical : public Base {
             }
 
             // Trayecto hacia arriba
-            for(int j=i; j<-i; j--){
+            for(int j=i; j>-i; j--){
                 y += 1;
 
                 position.position.x = x;
@@ -57,7 +58,7 @@ class Trayectoria_vertical : public Base {
             }
 
             // Trayecto hacia la derecha
-            for(int j=i; j<-i+1; j--){
+            for(int j=i; j>-i+1; j--){
                 x += 1;
 
                 position.position.x = x;

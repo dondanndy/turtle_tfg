@@ -137,6 +137,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/turtle_tfg_node.cpp)
 add_executable(tray_vertical src/lab03_vertical.cpp src/base.cpp)
+add_executable(tray_espiral src/lab03_espiral.cpp src/base.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -153,6 +154,7 @@ add_executable(tray_vertical src/lab03_vertical.cpp src/base.cpp)
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(tray_vertical ${catkin_LIBRARIES})
+target_link_libraries(tray_espiral ${catkin_LIBRARIES})
 
 
 #############
