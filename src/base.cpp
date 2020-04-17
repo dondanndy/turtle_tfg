@@ -60,8 +60,6 @@ void Base::run(int argc, char** argv){
     bool suc;
 
     auto posiciones = this->path(); // Vector con las posiciones de la trayectoria.
-
-    std::cout << posiciones.size() << std::endl;
     
     for (const Pose& pos : posiciones){
         suc = move_to_goal(pos);

@@ -16,11 +16,11 @@ class Trayectoria_aleatoria : public Base {
         std::mt19937 gen(rd());
         
         std::uniform_int_distribution<> distr_ancho(-ANCHO, ANCHO);
-        std::uniform_int_distribution<> distr_ALTO(-ALTO, ALTO);
+        std::uniform_int_distribution<> distr_alto(-ALTO, ALTO);
 
         for (int i=0; i < PUNTOS; i++){
-            position.position.x = dis_ancho(gen);
-            position.position.y = dis_alto(gen);
+            position.position.x = distr_ancho(gen);
+            position.position.y = distr_alto(gen);
             position.orientation = tf::createQuaternionMsgFromYaw(0);
 
             ruta.push_back(position);
