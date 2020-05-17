@@ -1,9 +1,10 @@
-#include "base.h"
+#include <base.h>
 
-class Trayectoria_vertical : public Base {
-    // Trayectoria que recorre el laboratorio de forma recta.
+void log_position(const Pose& pos);
+bool move_to_goal(const Pose& pos);
+void update_position(const PoseCov& position);
 
-    std::vector<Pose> path() override {
+std::vector<Pose> path() {
         std::vector<Pose> ruta;
         Pose position;
 
@@ -70,13 +71,5 @@ class Trayectoria_vertical : public Base {
             }
         }
         return(ruta);
-    }
-};
-
-int main(int argc, char** argv){
-
-    Trayectoria_vertical Tray;
-    Tray.run(argc, argv);
-
-    return 0;
 }
+

@@ -1,9 +1,7 @@
 #include "base.h"
+// Trayectoria que recorre el laboratorio de forma recta.
 
-class Trayectoria_aleatoria : public Base {
-    // Trayectoria que recorre el laboratorio de forma recta.
-
-    std::vector<Pose> path() override {
+    std::vector<Pose> path(){
         std::vector<Pose> ruta;
         Pose position;
 
@@ -26,14 +24,5 @@ class Trayectoria_aleatoria : public Base {
             ruta.push_back(position);
         }
 
-        return(ruta);
-    }
-};
-
-int main(int argc, char** argv){
-
-    Trayectoria_aleatoria Tray;
-    Tray.run(argc, argv);
-
-    return 0;
+    return(ruta);
 }
