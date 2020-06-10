@@ -1,6 +1,8 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <fstream>
+#include <chrono>
 #include <ros/ros.h>
 #include <std_msgs/Float64.h>
 #include <move_base_msgs/MoveBaseAction.h>
@@ -14,28 +16,54 @@ typedef geometry_msgs::PoseWithCovarianceStamped PoseCov;
 
 const unsigned int MAX_INT = 3;
 const unsigned int REP = 1;
+const bool SALIDA_TF = false;
 
+// Posicion del robot.
 Pose actual_pose;
 boost::array<double,36> actual_pose_covariance;
 
 std::vector<Pose> path();
 
-void log_position(const Pose& pos){
-    bool SALIDA_TF = false;
+std::string get_sensor_data(){
+    //TODO
+    return("1.0\t2.0\t95\n");
+}
 
-    tf::TransformListener listener;
-    tf::StampedTransform trans;    
+std::string get_date(){
+    /*
+        Devuelve fecha y hora.
+     */
+
+    auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+    //Fecha a texto
+    char text[50];
+    std::strftime(text, sizeof(text), "%Y-%m-%d--%Hh%Mm", std::localtime(&now));
+
+    std::string string_return(text); // Devolvemos std::string en vez de char*
+    return(string_return);
+}
+
+void log_position(const std::string& file_name, const Pose& pos){
+    std::string log_pos; //Posicion a escribir en el archivo
+
 
     //Posicion teorica
 
-    std::cout << "Posición teorica -----" << std::endl;
+    //std::cout << "Posición teorica -----" << std::endl;
 
-    std::cout << pos.position.x << "," << pos.position.y << std::endl;
-    
+    //std::cout << pos.position.x << "," << pos.position.y << std::endl; 
     //std::cout << "Yaw - " << tf::getYaw(pos.orientation) << std::endl;
+
+    log_pos = std::to_string(pos.position.x) + "\t" + std::to_string(pos.position.y) + "\t"; // Log de la posicion teorica
 
     //Posicion real, tf
     if (SALIDA_TF){
+    // En un principio no vamos a usar tf para conseguir la posicion así que lo esdcondemos detras de un bool en false.
+
+    tf::TransformListener listener;
+    tf::StampedTransform trans;  
+    
     bool dato_OK = true;
     while(dato_OK){
         //Reintentamos hasta que damos con el topic.
@@ -64,6 +92,16 @@ void log_position(const Pose& pos){
     std::cout << actual_pose_covariance[0] << "," << actual_pose_covariance[7] << std::endl;
 
     std::cout << "--------------------" << std::endl;
+
+    log_pos = log_pos
+              + std::to_string(actual_pose.position.x) + "\t"
+              + std::to_string(actual_pose.position.y) + "\t"
+              + get_sensor_data(); // Log de la posicion de amcl
+
+    // Al archivo
+    std::ofstream file(file_name, std::ios_base::app);
+    file << log_pos;
+    file.close();
 }
 
 bool move_to_goal(const Pose& pos){
@@ -77,6 +115,7 @@ bool move_to_goal(const Pose& pos){
     goal.target_pose.header.frame_id = "map";
     goal.target_pose.header.stamp = ros::Time::now();
     goal.target_pose.pose = pos;
+
     //Movimiento
     ac.sendGoal(goal);
     ac.waitForResult();
@@ -97,6 +136,8 @@ int main(int argc, char** argv){
     ros::spinOnce();
     bool suc;
 
+    std::string file = "/home/dondanndy/catkin_ws/src/turtle_tfg/datos/" + get_date() + ".txt"; // Nombre del rchivo para guardar los puntos.
+
     auto posiciones = path(); // Vector con las posiciones de la trayectoria.
     
     for (int i=0; i<REP; i++){
@@ -110,7 +151,7 @@ int main(int argc, char** argv){
                 }
             }
 	    ros::spinOnce();
-        log_position(pos);
+        log_position(file, pos);
         };
     };
 
