@@ -3,6 +3,7 @@
 #include <array>
 #include <fstream>
 #include <chrono>
+#include <thread>
 #include <ros/ros.h>
 #include <std_msgs/Float64.h>
 #include <move_base_msgs/MoveBaseAction.h>
@@ -14,6 +15,9 @@
 typedef geometry_msgs::Pose Pose;
 typedef geometry_msgs::PoseWithCovarianceStamped PoseCov;
 
+const std::string ruta("/home/tb2b/catkin_ws/src/");
+
+const unsigned int MAX_PTS_SENSOR = 50;
 const unsigned int MAX_INT = 3;
 const unsigned int REP = 1;
 const bool SALIDA_TF = false;
@@ -23,10 +27,38 @@ Pose actual_pose;
 boost::array<double,36> actual_pose_covariance;
 
 std::vector<Pose> path();
+std::string get_tag_name();
 
 std::string get_sensor_data(){
-    //TODO
-    return("1.0\t2.0\t95\n");
+    std::ifstream consola;
+	std::ofstream file; 
+	std::string linea;
+	unsigned int num_datos = 0;
+
+	while (num_datos < MAX_PTS_SENSOR){
+        
+        consola.open("/dev/ttyACM0");
+
+        std::getline(consola,linea);
+
+		if (linea.size() > 115 && linea.size() < 180) {
+            // A veces se vuelve un poco loco al leer así que no guardaremos los datos que 
+            // por estar con menos caracteres no nos sirven.
+            
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+			file.open(ruta + "turtle_tfg/src/datos/sensor/" + tag + ".txt", std::ios_base::app);
+			file << linea << "\n";
+			file.close();
+		
+            num_datos++;
+        }
+        
+        consola.close();
+	}
+
+        //TODO
+    return("0.0\n");
 }
 
 std::string get_date(){
@@ -95,7 +127,9 @@ void log_position(const std::string& file_name, const Pose& pos){
 
     log_pos = log_pos
               + std::to_string(actual_pose.position.x) + "\t"
+              + std::to_string(actual_pose_covariance[0]) + "\t"
               + std::to_string(actual_pose.position.y) + "\t"
+              + std::to_string(actual_pose_covariance[7]) + "\t"
               + get_sensor_data(); // Log de la posicion de amcl
 
     // Al archivo
@@ -136,22 +170,29 @@ int main(int argc, char** argv){
     ros::spinOnce();
     bool suc;
 
+    std::string date = get_date();
+
     std::string file = "/home/dondanndy/catkin_ws/src/turtle_tfg/datos/" + get_date() + ".txt"; // Nombre del rchivo para guardar los puntos.
 
     auto posiciones = path(); // Vector con las posiciones de la trayectoria.
     
-    for (int i=0; i<REP; i++){
-        for (const Pose& pos : posiciones){
-            suc = move_to_goal(pos);
+    for (int k=1; k<=REP; k++){
+        file = ruta + "turtle_tfg/src/datos/" 
+               + get_tag_name() + "-" +  date + "-" + std::to_string(k) + ".txt"; 
+
+        for (int i=0; i < posiciones.size(); i++){
+            suc = move_to_goal(posiciones[i]);
             if (!suc){
                 ROS_INFO("El robot no ha llegado a su destino, reintentando");
-                for (int i=0; i < MAX_INT; i++){
-                    suc = move_to_goal(pos);
+                for (int j=0; j < MAX_INT; j++){
+                    suc = move_to_goal(posiciones[i]);
                     if (suc) break;
                 }
             }
 	    ros::spinOnce();
-        log_position(file, pos);
+
+        std::string tag = get_tag_name() + std::to_string(i) + date + "-" + std::to_string(k); //Tag de cada punto.
+        log_position(file, posiciones[i], tag);
         };
     };
 

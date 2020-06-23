@@ -4,6 +4,10 @@ void log_position(const Pose& pos);
 bool move_to_goal(const Pose& pos);
 void update_position(const PoseCov& position);
 
+std::string get_tag_name(){
+    return("ESP");
+}
+
 std::vector<Pose> path() {
         std::vector<Pose> ruta;
         Pose position;
