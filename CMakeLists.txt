@@ -140,6 +140,8 @@ add_executable(tray_vertical src/lab03_vertical.cpp)
 add_executable(tray_espiral src/lab03_espiral.cpp)
 add_executable(tray_aleatoria src/lab03_random.cpp)
 
+add_executable(tray_fisica src/fisica_cuadrado.cpp)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -157,6 +159,8 @@ add_executable(tray_aleatoria src/lab03_random.cpp)
 target_link_libraries(tray_vertical ${catkin_LIBRARIES})
 target_link_libraries(tray_espiral ${catkin_LIBRARIES})
 target_link_libraries(tray_aleatoria ${catkin_LIBRARIES})
+
+target_link_libraries(tray_fisica ${catkin_LIBRARIES})
 
 
 #############
