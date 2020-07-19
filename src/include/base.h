@@ -172,7 +172,7 @@ int main(int argc, char** argv){
 
     std::string date = get_date();
 
-    std::string file = "/home/dondanndy/catkin_ws/src/turtle_tfg/datos/" + get_date() + ".txt"; // Nombre del rchivo para guardar los puntos.
+    std::string file = ruta + "/turtle_tfg/datos/" + get_date() + ".txt"; // Nombre del rchivo para guardar los puntos.
 
     auto posiciones = path(); // Vector con las posiciones de la trayectoria.
     
