@@ -12,33 +12,51 @@ std::vector<Pose> path() {
         std::vector<Pose> ruta;
         Pose position;
 
-        //Primer punto
-        position.position.x = 0.7;
-        position.position.y = -0.5;
-        
-        position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
-        ruta.push_back(position);
+        float min_x = 0.7;
+        float min_y = -0.5;
 
-        //Segundo punto
-        position.position.x = 10.5;
-        position.position.y = -0.5;
-        
-        position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
-        ruta.push_back(position);
+        float max_x = 10.5;
+        float max_y = 10.0;
 
-        //Tercer punto
-        position.position.x = 10.5;
-        position.position.y = 10.0;
-        
-        position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
-        ruta.push_back(position);
+        const int MAX_PTS_TRAY = 3;
 
-        //Cuarto punto
-        position.position.x = 0.7;
-        position.position.y = 10.0;
-        
-        position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
-        ruta.push_back(position);
+
+        //Primera parte
+        for (int n=0; n <= MAX_PTS_TRAY; n++){
+            position.position.x = min_x + (max_x - min_x)*n/(MAX_PTS_TRAY + 1);
+            position.position.y = min_y ;
+            
+            position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
+            ruta.push_back(position);
+        }
+
+
+        //Segunda parte
+        for (int n=0; n <= MAX_PTS_TRAY; n++){
+            position.position.x = max_x ;
+            position.position.y = min_y + (max_y - min_y)*n/(MAX_PTS_TRAY + 1);
+            
+            position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
+            ruta.push_back(position);
+        }
+
+        //Tercera parte
+        for (int n=0; n <= MAX_PTS_TRAY; n++){
+            position.position.x = max_x - (max_x - min_x)*n/(MAX_PTS_TRAY + 1);
+            position.position.y = max_y ;
+            
+            position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
+            ruta.push_back(position);
+        }
+
+        //Cuarta parte
+        for (int n=0; n <= MAX_PTS_TRAY; n++){
+            position.position.x = min_x ;
+            position.position.y = max_y - (max_y - min_y)*n/(MAX_PTS_TRAY + 1);
+            
+            position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
+            ruta.push_back(position);
+        }
 
         return(ruta);
 }
