@@ -17,9 +17,9 @@ typedef geometry_msgs::PoseWithCovarianceStamped PoseCov;
 
 const std::string ruta("/home/tb2b/catkin_ws/src/");
 
-const unsigned int MAX_PTS_SENSOR = 50;
-const unsigned int MAX_INT = 3;
-const unsigned int REP = 1;
+const unsigned int MAX_PTS_SENSOR = 50; //Puntos a recoger de los sensores.
+const unsigned int MAX_INT = 3; // Intentos en caso de que el robot no pueda llegar al objetivo
+const unsigned int REP = 3; //Repeticiones de cada trayectoria.
 const bool SALIDA_TF = false;
 
 // Posicion del robot.
@@ -77,6 +77,10 @@ std::string get_date(){
 }
 
 void log_position(const std::string& file_name, const Pose& pos){
+    /* 
+        Escribe, en el archivo file_name, la posicion del robot y de los sensores.    
+    */
+
     std::string log_pos; //Posicion a escribir en el archivo
 
 
@@ -139,6 +143,10 @@ void log_position(const std::string& file_name, const Pose& pos){
 }
 
 bool move_to_goal(const Pose& pos){
+    /*
+        Mueve el robot hacia una posicion en el mapa.
+        Devuelve si el resultado ha sido exitoso.
+    */
     actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base", true);
     while(!ac.waitForServer(ros::Duration(5.0))){
         ROS_INFO("Iniciando server");
@@ -172,7 +180,7 @@ int main(int argc, char** argv){
 
     std::string date = get_date();
 
-    std::string file = ruta + "/turtle_tfg/datos/" + get_date() + ".txt"; // Nombre del rchivo para guardar los puntos.
+    std::string file = ruta + "/turtle_tfg/datos/" + get_date() + ".txt"; // Nombre del archivo para guardar los puntos.
 
     auto posiciones = path(); // Vector con las posiciones de la trayectoria.
     

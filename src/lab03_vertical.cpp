@@ -19,12 +19,12 @@ std::vector<Pose> path(){
                 position.position.x = i;
                 position.position.y = -j;
 
-                position.orientation = tf::createQuaternionMsgFromYaw(1.57); //+90 grados
+                position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
             } else {
                 position.position.x = i;
                 position.position.y = j;
 
-                position.orientation = tf::createQuaternionMsgFromYaw(-1.57); //-90 grados
+                position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
             }
         ruta.push_back(position);
         }

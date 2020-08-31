@@ -22,7 +22,7 @@ std::vector<Pose> path() {
             position.position.x = x;
             position.position.y = y;
 
-            position.orientation = tf::createQuaternionMsgFromYaw(0.785); //45 grados
+            position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
 
             ruta.push_back(position);
 
@@ -33,7 +33,7 @@ std::vector<Pose> path() {
                 position.position.x = x;
                 position.position.y = y;
 
-                position.orientation = tf::createQuaternionMsgFromYaw(-1.57); //-90 grados
+                position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
 
                 ruta.push_back(position);
             }
@@ -45,7 +45,7 @@ std::vector<Pose> path() {
                 position.position.x = x;
                 position.position.y = y;
 
-                position.orientation = tf::createQuaternionMsgFromYaw(3.14); //-180 grados
+                position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
 
                 ruta.push_back(position);
             }
@@ -57,7 +57,7 @@ std::vector<Pose> path() {
                 position.position.x = x;
                 position.position.y = y;
 
-                position.orientation = tf::createQuaternionMsgFromYaw(1.57); //-90 grados
+                position.orientation = tf::createQuaternionMsgFromYaw(0); //0 grados
 
                 ruta.push_back(position);
             }

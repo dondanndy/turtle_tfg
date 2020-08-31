@@ -15,7 +15,7 @@ std::vector<Pose> path() {
         float min_x = 0.7;
         float min_y = -0.5;
 
-        float max_x = 11.0;
+        float max_x = 10.0;
         float max_y = 10.0;
 
         const int MAX_PTS_TRAY = 3;
